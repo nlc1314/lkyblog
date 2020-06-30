@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hz.lkyblog.dao.mapper.BlogTagMapper">
+  <resultMap id="BaseResultMap" type="com.hz.lkyblog.dao.model.BlogTag">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
+    <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="is_show" jdbcType="INTEGER" property="isShow" />
+  </resultMap>
+
+  <sql id="conditions">
+    <where>
+      <if test="id != null">
+         and id = #{id,jdbcType=BIGINT}
+      </if>
+
+      <if test="name != null">
+         and name = #{name,jdbcType=VARCHAR}
+      </if>
+
+      <if test="status != null">
+         and status = #{status,jdbcType=INTEGER}
+      </if>
+
+      <if test="isShow != null">
+         and is_show = #{isShow,jdbcType=INTEGER}
+      </if>
+
+    </where>
+
+  </sql>
+
+  <sql id="Base_Column_List">
+    id, name, gmt_create, gmt_modified, status, is_show
+  </sql>
+
+  <select id="getBy" parameterType="com.hz.lkyblog.dao.query.BlogTagQuery" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_lkyblog_tag
+    <include refid="conditions" />
+    limit 1
+  </select>
+
+  <select id="selectBy" parameterType="com.hz.lkyblog.dao.query.BlogTagQuery" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_lkyblog_tag
+    <include refid="conditions" />
+  </select>
+
+  <select id="countBy" parameterType="com.hz.lkyblog.dao.query.BlogTagQuery" resultType="java.lang.Integer">
+    select count(0) from t_lkyblog_tag
+    <include refid="conditions" />
+  </select>
+
+  <update id="updateById" parameterType="com.hz.lkyblog.dao.model.BlogTag">
+    update t_lkyblog_tag
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+
+      <if test="gmtCreate != null">
+        gmt_create = now(),
+      </if>
+
+      gmt_modified = now(),
+      <if test="status != null">
+        status = #{status,jdbcType=INTEGER},
+      </if>
+
+      <if test="isShow != null">
+        is_show = #{isShow,jdbcType=INTEGER},
+      </if>
+
+    </set>
+
+    <where>
+       id  = #{id,jdbcType=BIGINT}
+    </where>
+
+  </update>
+
+  <delete id="deleteById">
+    delete from t_lkyblog_tag where id  = #{id,jdbcType=BIGINT}
+  </delete>
+
+  <select id="pageBy" parameterType="com.hz.lkyblog.dao.query.BlogTagQuery" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_lkyblog_tag
+    <include refid="conditions" />
+  </select>
+
+  <insert id="insertSelective" parameterType="com.hz.lkyblog.dao.model.BlogTag">
+    insert into t_lkyblog_tag
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+
+      <if test="name != null">
+        name,
+      </if>
+
+      gmt_create,
+      gmt_modified,
+      <if test="status != null">
+        status,
+      </if>
+
+      <if test="isShow != null">
+        is_show,
+      </if>
+
+    </trim>
+
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+
+      now(),
+      now(),
+      <if test="status != null">
+        #{status,jdbcType=INTEGER},
+      </if>
+
+      <if test="isShow != null">
+        #{isShow,jdbcType=INTEGER},
+      </if>
+
+    </trim>
+
+  </insert>
+
+</mapper>
