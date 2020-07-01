@@ -10,10 +10,10 @@ public interface MenuService {
     /**
      * 获取管理员可见的菜单列表
      *
-     * @param adminId 管理员id
+     * @param roleId 管理员id
      * @return
      */
-    WebResult<List<MenuVo>> getMenus(Long adminId);
+    WebResult<List<MenuVo>> getMenus(Long roleId);
 
     /**
      * 保存菜单信息

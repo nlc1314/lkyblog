@@ -3,7 +3,6 @@ package com.hz.lkyblog.dao.query;
 import lombok.Builder;
 import lombok.Data;
 
-
 @Builder
 @Data
 public class BlogMenuQuery {
@@ -18,6 +17,8 @@ public class BlogMenuQuery {
     private Integer status;
 
     private String target;
+
+    private String icon;
 
     private Integer pageIndex;
 

@@ -9,120 +9,93 @@ import java.util.Date;
 
 @Slf4j
 public class DateUtil {
-    private static final String commonpartten = "yyyy年MM月dd日:HH:mm";
-    private static final String yypartten = "yyMMdd:HH:mm:ss";
-    private static final String partten = "yyyy-MM-dd HH:mm:ss";
-    private static final String commonpartten1 = "yyyy-MM-dd HH:mm";
-    private static final String partten1 = "yyyy-MM-dd";
-    private static final String partten2 = "yyyy/MM";
-    private static final String noHourpartten = "yyyyMMdd";
+    /**
+     * 精确到分钟包含中文字符的日期格式
+     */
+    private static final String noSecond_WhitCh_partten = "yyyy年MM月dd日:HH:mm";
+    /**
+     * yyMMdd:HH:mm:ss 精确到秒的日期格式
+     */
+    private static final String yyMMdd_partten = "yyMMdd:HH:mm:ss";
+    /**
+     * yyyy-MM-dd HH:mm:ss 精确到秒的日期格式
+     */
+    private static final String yyyy_MM_dd_partten = "yyyy-MM-dd HH:mm:ss";
+    /**
+     * yyyy-MM-dd HH:mm 精确到分的日期格式
+     */
+    private static final String noSecond_yyyy_MM_dd_partten = "yyyy-MM-dd HH:mm";
+    /**
+     * yyyy-MM-dd 精确到天的日期格式
+     */
+    private static final String noHour_yyyy_MM_dd_partten = "yyyy-MM-dd";
+    /**
+     * yyyy/MM 精确到月的日期格式
+     */
+    private static final String noDay_yyyycMM_partten = "yyyy/MM";
+    /**
+     * yyyyMMdd 精确到天的日期格式
+     */
+    private static final String noHour_yyyyMMdd_partten = "yyyyMMdd";
+    /**
+     * 只显示当天时分
+     */
+    private static final String HH_mm_partten = "HH:mm";
 
-    private static final String today = "HH:mm";//今天
+    public static final DateFormat noSecond_WhitCh_partten_sdf = new SimpleDateFormat(noSecond_WhitCh_partten);
+    public static final DateFormat yyMMdd_partten_sdf = new SimpleDateFormat(yyMMdd_partten);
+    public static final DateFormat yyyy_MM_dd_partten_sdf = new SimpleDateFormat(yyyy_MM_dd_partten);
+    public static final DateFormat noSecond_yyyy_MM_dd_partten_sdf = new SimpleDateFormat(noSecond_yyyy_MM_dd_partten);
+    public static final DateFormat noHour_yyyy_MM_dd_partten_sdf = new SimpleDateFormat(noHour_yyyy_MM_dd_partten);
+    public static final DateFormat noDay_yyyycMM_partten_sdf = new SimpleDateFormat(noDay_yyyycMM_partten);
+    public static final DateFormat noHour_yyyyMMdd_partten_sdf = new SimpleDateFormat(noHour_yyyyMMdd_partten);
+    public static final DateFormat HH_mm_partten_sdf = new SimpleDateFormat(HH_mm_partten);
 
-    private static DateFormat commonsdf = new SimpleDateFormat(commonpartten1);
-    private static DateFormat yysdf = new SimpleDateFormat(yypartten);
-    private static DateFormat ysdf = new SimpleDateFormat(partten);
-    private static DateFormat ysdf1 = new SimpleDateFormat(partten1);
-    private static DateFormat ysdf2 = new SimpleDateFormat(partten2);
-    private static DateFormat noHoursdf = new SimpleDateFormat(noHourpartten);
-
-    private static DateFormat todaysdf = new SimpleDateFormat(today);
-
-    private static Calendar calendar;
-
-    public static String getCommonsDateStrOfOperations(Date date) {
+    /**
+     * 根据格式sdf获取日期字符串
+     *
+     * @param date       日期
+     * @param dateFormat sdf格式
+     * @return
+     */
+    public static String getStrByDateFormat(Date date, DateFormat dateFormat) {
         try {
-            String format = "";
-            calendar = Calendar.getInstance();
-            //获取当前的日期，
-            int now = calendar.get(Calendar.DAY_OF_YEAR);
-
-            calendar.setTime(date);
-            int obj = calendar.get(Calendar.DAY_OF_YEAR);
-            if (now - obj == 0) {//今天
-                format = todaysdf.format(date);
-            } else if (now - obj == 1) {//昨天
-                format = "昨天 " + todaysdf.format(date);
-            } else {//两天前
-                format = commonsdf.format(date);
-            }
-            return format;
-        } catch (Exception e) {
-            log.error("getCommonsDateStr error", e);
-            return "";
-        }
-    }
-
-    public static String getCommonsDateStr(Date date) {
-        try {
-            String format = ysdf1.format(date);
-            return format;
-        } catch (Exception e) {
-            log.error("getCommonsDateStr error", e);
-            return "";
-        }
-    }
-
-    public static Date getDateFromCommonsStr(String dateStr) {
-        try {
-            if (dateStr == null || "".equals(dateStr)) {
-                return null;
-            }
-            Date parse = ysdf1.parse(dateStr);
-            return parse;
-        } catch (Exception e) {
-            log.error("getDateFromCommonsStr error", e);
-            return null;
-        }
-    }
-
-
-    public static String getCommonsDateStr1(Date date) {
-        try {
-            if (date == null) {
+            if (dateFormat == null) {
+                log.error("dateFormat is null");
                 return "";
             }
-            String format = ysdf2.format(date);
-            return format;
+            return dateFormat.format(date);
         } catch (Exception e) {
-            log.error("getCommonsDateStr1 error", e);
+            log.error("getDateStrByDateFormat error:{}", e);
             return "";
         }
     }
 
-    public static Date getDateFromCommonsStr1(String dateStr) {
+    /**
+     * 根据sdf格式获取日期
+     *
+     * @param dateStr    日期字符串
+     * @param dateFormat sdf格式
+     * @return
+     */
+    public static Date getDateByDateFormat(String dateStr, DateFormat dateFormat) {
         try {
             if (dateStr == null || "".equals(dateStr)) {
+                log.error("dateStr is null");
                 return null;
             }
-            Date parse = ysdf2.parse(dateStr);
-            return parse;
+            if (dateFormat == null) {
+                log.error("dateFormat is null");
+                return null;
+            }
+            return dateFormat.parse(dateStr);
         } catch (Exception e) {
-            log.error("getDateFromCommonsStr1 error", e);
+            log.error("getDateByDateFormat error:{}", e);
             return null;
         }
     }
 
-    public static Date getDateFromInterViewStr(String dateStr) {
-        try {
-            if (dateStr == null || "".equals(dateStr)) {
-                return null;
-            }
-            Date parse = commonsdf.parse(dateStr);
-            return parse;
-        } catch (Exception e) {
-            log.error("getDateFromCommonsStr error", e);
-            return null;
-        }
-    }
+    public static void main(String[] args) {
 
-    public static String getFromInterViewStr(Date date) {
-        try {
-            String format = commonsdf.format(date);
-            return format;
-        } catch (Exception e) {
-            log.error("getCommonsDateStr error", e);
-            return "";
-        }
     }
 }

@@ -10,6 +10,7 @@
     <result column="gmt_create" jdbcType="TIMESTAMP" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="TIMESTAMP" property="gmtModified" />
     <result column="target" jdbcType="VARCHAR" property="target" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
   </resultMap>
 
   <sql id="conditions">
@@ -38,12 +39,16 @@
          and target = #{target,jdbcType=VARCHAR}
       </if>
 
+      <if test="icon != null">
+         and icon = #{icon,jdbcType=VARCHAR}
+      </if>
+
     </where>
 
   </sql>
 
   <sql id="Base_Column_List">
-    id, name, parent_id, hierarchy, status, gmt_create, gmt_modified, target
+    id, name, parent_id, hierarchy, status, gmt_create, gmt_modified, target, icon
   </sql>
 
   <select id="getBy" parameterType="com.hz.lkyblog.dao.query.BlogMenuQuery" resultMap="BaseResultMap">
@@ -94,6 +99,10 @@
         target = #{target,jdbcType=VARCHAR},
       </if>
 
+      <if test="icon != null">
+        icon = #{icon,jdbcType=VARCHAR},
+      </if>
+
     </set>
 
     <where>
@@ -142,6 +151,10 @@
         target,
       </if>
 
+      <if test="icon != null">
+        icon,
+      </if>
+
     </trim>
 
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -169,6 +182,10 @@
       now(),
       <if test="target != null">
         #{target,jdbcType=VARCHAR},
+      </if>
+
+      <if test="icon != null">
+        #{icon,jdbcType=VARCHAR},
       </if>
 
     </trim>

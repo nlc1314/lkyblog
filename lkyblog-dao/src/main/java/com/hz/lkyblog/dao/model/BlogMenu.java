@@ -1,11 +1,8 @@
 package com.hz.lkyblog.dao.model;
 
 import java.util.Date;
-
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@AllArgsConstructor
 @Data
 public class BlogMenu {
     private Long id;
@@ -23,4 +20,6 @@ public class BlogMenu {
     private Date gmtModified;
 
     private String target;
+
+    private String icon;
 }
