@@ -7,12 +7,14 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.elasticsearch.repository.config.EnableElasticsearchRepositories;
 
 @Slf4j
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.hz.*"})
 @MapperScan("com.hz.lkyblog.dao.mapper")
 @EnableMethodCache(basePackages = "com.hz.lkyblog.biz")
+@EnableElasticsearchRepositories(basePackages = "com.hz.lkyblog.dao.es")
 @EnableCreateCacheAnnotation
 public class LkyblogWebApplication {
     public static void main(String[] args) {

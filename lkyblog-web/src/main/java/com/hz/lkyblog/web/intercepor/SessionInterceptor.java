@@ -33,7 +33,8 @@ public class SessionInterceptor implements HandlerInterceptor {
 
         ///如果匹配到静态资源直接放行
         boolean handlerMethodBoolean = handler instanceof HandlerMethod;
-        if (!handlerMethodBoolean) { //静态资源映射
+        //静态资源映射
+        if (!handlerMethodBoolean) {
             return true;
         }
         //如果匹配到swagger直接放行
@@ -60,7 +61,8 @@ public class SessionInterceptor implements HandlerInterceptor {
      */
     private void checkCookie(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
-        if (cookies == null || cookies.length == 0) {//如果cookie为空则返回未登录
+        //如果cookie为空则返回未登录
+        if (cookies == null || cookies.length == 0) {
             throw new NonAuthException(ErrorConstants.NOT_LOGIN);
         }
 
