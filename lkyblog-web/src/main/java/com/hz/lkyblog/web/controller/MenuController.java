@@ -9,6 +9,7 @@ import com.hz.lkyblog.biz.vo.PageVo;
 import com.hz.lkyblog.dao.model.BlogUser;
 import com.hz.lkyblog.dao.query.BlogUserQuery;
 import com.hz.lkyblog.utils.rest.WebResult;
+import com.hz.lkyblog.web.aspect.IgnoreLogin;
 import com.hz.lkyblog.web.intercepor.AdminThreadLocal;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
@@ -33,14 +34,16 @@ public class MenuController {
      *
      * @return
      */
+    @IgnoreLogin
     @RequestMapping(value = "getMenu", method = RequestMethod.GET)
     @ResponseBody
     public WebResult<List<MenuVo>> getMenu() {
-        BlogUser blogUser = AdminThreadLocal.loginInfo();
-        if (blogUser == null) {
-            return WebResult.buildFailedResponse(NOT_LOGIN);
-        }
-        return menuService.getMenus(Long.valueOf(blogUser.getRoleId()));
+//        BlogUser blogUser = AdminThreadLocal.loginInfo();
+//        if (blogUser == null) {
+//            return WebResult.buildFailedResponse(NOT_LOGIN);
+//        }
+//        return menuService.getMenus(Long.valueOf(blogUser.getRoleId()));
+        return menuService.getMenus(1L);
     }
 
     /**
@@ -49,6 +52,7 @@ public class MenuController {
      * @param menuVo 菜单信息
      * @return
      */
+    @IgnoreLogin
     @RequestMapping(value = "save", method = RequestMethod.POST)
     @ResponseBody
     public WebResult<Void> save(@RequestBody MenuVo menuVo) {
@@ -62,6 +66,7 @@ public class MenuController {
      * @param menuId 菜单id
      * @return
      */
+    @IgnoreLogin
     @RequestMapping(value = "delete", method = RequestMethod.GET)
     @ResponseBody
     public WebResult<Void> delete(@RequestParam(value = "menuId") Long menuId) {

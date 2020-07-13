@@ -1,8 +1,11 @@
 package com.hz.lkyblog.dao.query;
 
 import java.util.Date;
+
+import lombok.Builder;
 import lombok.Data;
 
+@Builder
 @Data
 public class BlogArticleQuery {
     private Long id;

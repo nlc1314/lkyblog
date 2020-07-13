@@ -3,6 +3,10 @@ package com.hz.lkyblog.utils.util;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.*;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Calendar;
+import java.util.Date;
 
 @Slf4j
 public class FileUtil {
@@ -70,6 +74,59 @@ public class FileUtil {
                 e.printStackTrace();
                 log.error("bos close exception e:{}", e);
             }
+        }
+    }
+
+
+    //获取上一天凌晨
+    public static Date getDayBeforeZeroTimeStr() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.DATE, calendar.get(Calendar.DATE) - 1);//设置为上一天
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        return new Date(calendar.getTimeInMillis());
+    }
+
+    //获取当天凌晨
+    public static Date getDayNowZeroTimeStr() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        return new Date(calendar.getTimeInMillis());
+    }
+
+    /**
+     * 获取文件md5
+     *
+     * @param bytes
+     * @return
+     */
+    public static String getFileMd5(byte[] bytes) {
+        StringBuffer sb = new StringBuffer();
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(bytes);
+            byte b[] = md.digest();
+            int d;
+            for (int i = 0; i < b.length; i++) {
+                d = b[i];
+                if (d < 0) {
+                    d = b[i] & 0xff;
+                    // 与上一行效果等同
+                    // i += 256;
+                }
+                if (d < 16)
+                    sb.append("0");
+                sb.append(Integer.toHexString(d));
+            }
+            return sb.toString();
+        } catch (Exception e) {
+            log.error("");
+            return "";
         }
     }
 
